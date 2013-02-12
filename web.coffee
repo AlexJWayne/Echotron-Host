@@ -7,12 +7,28 @@ Echo = db.Echo
 app = express express.logger()
 app.use express.bodyParser()
 
+renderEchoes = (res, echoes) ->
+  echoContents =
+    for echo in echoes
+      echo.content
+
+  res.type 'js'
+  res.send UglifyJS.minify(echoContents.join("\n"), fromString: yes).code
+
+
 app.get '/echoes.js', (req, res) ->
   Echo.find {}, (err, echoes) ->
-    body = (echo.content for echo in echoes).join("\n")
-    
-    res.type 'js'
-    res.send UglifyJS.minify(body, fromString: yes).code
+    renderEchoes res, echoes
+
+app.get '/echoes/:type/:title.js', (req, res) ->
+  { title, type } = req.params
+  Echo.find { title, type }, (err, echoes) ->
+    renderEchoes res, echoes
+
+app.get '/echoes.json', (req, res) ->
+  Echo.find {}, (err, echoes) ->
+    res.type 'json'
+    res.send(echo.toSlimJSON() for echo in echoes)
 
 
 app.post '/', (req, res) ->
@@ -32,7 +48,7 @@ app.post '/', (req, res) ->
       console.error err if err
 
       res.type 'js'
-      res.send echo
+      res.send echo.toSlimJSON()
 
 
 
