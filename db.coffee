@@ -12,10 +12,7 @@ exports.Echo = mongoose.model 'Echo', new Schema
   content: String
 
 if process.env.MONGOLAB_URI
-  console.log 'MONGOURI:', mongoose.connect process.env.MONGOLAB_URI
-  mongoose.connect process.env.MONGOLAB_URI, 'echotron', null,
-    user: echotron_app
-    pass: qw8i5t6
+  mongoose.connect process.env.MONGOLAB_URI
 
 else
   mongoose.connect 'mongodb://localhost/echotron'
