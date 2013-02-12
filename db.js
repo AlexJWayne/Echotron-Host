@@ -31,7 +31,7 @@
     json.revision = json.__v;
     delete json.__v;
     delete json.content;
-    json.path = "/echoes/" + this.type + "/" + this.title + ".js";
+    json.path = "/echoes/" + this._id + ".js";
     return json;
   };
 

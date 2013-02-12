@@ -37,14 +37,11 @@
     });
   });
 
-  app.get('/echoes/:type/:title.js', function(req, res) {
+  app.get('/echoes/:id.js', function(req, res) {
     var title, type, _ref;
     _ref = req.params, title = _ref.title, type = _ref.type;
-    return Echo.find({
-      title: title,
-      type: type
-    }, function(err, echoes) {
-      return renderEchoes(res, echoes);
+    return Echo.findById(req.params.id, function(err, echo) {
+      return renderEchoes(res, [echo]);
     });
   });
 

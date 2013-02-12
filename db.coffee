@@ -31,7 +31,7 @@ Echo::toSlimJSON = ->
   delete json.content
 
   # Add a path where you can get the content
-  json.path = "/echoes/#{@type}/#{@title}.js"
+  json.path = "/echoes/#{@_id}.js"
 
   # Return the prepped object.
   json

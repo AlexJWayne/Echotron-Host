@@ -20,10 +20,10 @@ app.get '/echoes.js', (req, res) ->
   Echo.find {}, (err, echoes) ->
     renderEchoes res, echoes
 
-app.get '/echoes/:type/:title.js', (req, res) ->
+app.get '/echoes/:id.js', (req, res) ->
   { title, type } = req.params
-  Echo.find { title, type }, (err, echoes) ->
-    renderEchoes res, echoes
+  Echo.findById req.params.id, (err, echo) ->
+    renderEchoes res, [echo]
 
 app.get '/echoes.json', (req, res) ->
   Echo.find {}, (err, echoes) ->
