@@ -1,11 +1,16 @@
+fs = require 'fs'
+path = require 'path'
 express = require 'express'
 UglifyJS = require 'uglify-js'
 
 db = require './db'
 Echo = db.Echo
 
+rootPath = path.dirname fs.realpathSync(__filename)
+
 app = express express.logger()
 app.use express.bodyParser()
+app.use '/', express.static(path.join rootPath, 'public')
 
 renderEchoes = (res, echoes) ->
   echoContents =
